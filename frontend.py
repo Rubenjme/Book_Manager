@@ -29,9 +29,9 @@ def update_command():
     view_command()
 
 def get_selected_row(event):
-    global selected_tuple
-    index = list1.curselection()
-    if index:
+    try:
+        global selected_tuple
+        index = list1.curselection()[0]
         selected_tuple = list1.get(index)
         e1.delete(0, END)
         e1.insert(END, selected_tuple[1])
@@ -41,6 +41,9 @@ def get_selected_row(event):
         e3.insert(END, selected_tuple[3])
         e4.delete(0, END)
         e4.insert(END, selected_tuple[4])
+    except IndexError:
+        pass  # No hay nada seleccionado o es una línea vacía
+
 
 # --- Ventana ---
 window = Tk()
@@ -106,7 +109,7 @@ b5.grid(row=6, column=3)
 b6=Button(window, text="Close", width=12, command=window.destroy)
 b6.grid(row=7, column=3)
 
-# --- Vincular selección del Listbox ---
+# --- Vincula selección del Listbox ---
 list1.bind('<<ListboxSelect>>', get_selected_row)
 
 window.mainloop()
