@@ -24,4 +24,14 @@ def view():
     conn.close()
     return rows
 
+
+def search(title="", author="", year="", isbn=""): # Asigno parámetros vacíos por defecto por si no se ingresan todos los datos en la búsqueda
+    conn = sqlite3.connect("books.db")
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM WHERE title=? OR author=? OR year=? OR isbn=?", (title, author, year, isbn))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
 connect() # Llamamos a la función connect() para crear la base de datos si no existe
