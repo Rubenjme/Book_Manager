@@ -1,6 +1,17 @@
 from tkinter import *
 import backend
 
+# --- Funciones para los botones de la interfaz ---
+# Estas funciones llaman a las funciones de backend.py para realizar las operaciones de la base de datos 
+# Por ejemplo, la función view_command() llama a la función view() de backend.py para mostrar todos los registros de la base de datos
+
+def view_command():
+    list1.delete(0, END)
+    for row in backend.view():
+        list1.insert(END, row)
+
+
+# --- Ventana ---
 window = Tk()
 
 # --- Parte superior ---
@@ -46,7 +57,7 @@ sb1.configure(command=list1.yview)
 
 
 # --- Botones ---
-b1=Button(window, text="View all", width=12)
+b1=Button(window, text="View all", width=12, command=backend.view)
 b1.grid(row=2, column=3)
 
 b2=Button(window, text="Search entry", width=12)
