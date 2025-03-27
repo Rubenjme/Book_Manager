@@ -34,4 +34,12 @@ def search(title="", author="", year="", isbn=""): # Asigno parámetros vacíos 
     return rows
 
 
+def delete(id):
+    conn = sqlite3.connect("books.db")
+    cur = conn.cursor()
+    cur.execute("DELETE FROM book WHERE id=?", (id,))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
 connect() # Llamamos a la función connect() para crear la base de datos si no existe
