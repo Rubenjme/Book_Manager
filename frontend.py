@@ -1,5 +1,14 @@
+# Este script es la interfaz gráfica de usuario (GUI) para una aplicación de gestión de libros.
+# Utiliza la biblioteca tkinter para crear la GUI y el módulo backend.py para manejar la lógica de la base de datos.
+# La aplicación permite al usuario agregar, buscar, actualizar y eliminar libros de una base de datos SQLite.
+# La GUI incluye etiquetas, entradas de texto, una lista para mostrar los libros y botones para realizar las operaciones.
+
 from tkinter import *
 import backend
+
+# Para crear el ejecutable con PyInstaller, usé el comando --> pyinstaller --onefile --windowed frontend.py"
+# Hay que tener instalado pyinstaller, se instala con --> pip install pyinstaller
+
 
 # --- Funciones para los botones de la interfaz ---
 # Estas funciones llaman a las funciones de backend.py para realizar las operaciones de la base de datos 
@@ -28,9 +37,9 @@ def update_command():
     backend.update(selected_tuple[0], title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
     view_command()
 
-def get_selected_row(event):
+def get_selected_row(event): # Esta función se llama cuando se selecciona una fila en el Listbox
     try:
-        global selected_tuple
+        global selected_tuple # Se declara como global para poder usarla en otras funciones
         index = list1.curselection()[0]
         selected_tuple = list1.get(index)
         e1.delete(0, END)
@@ -47,6 +56,8 @@ def get_selected_row(event):
 
 # --- Ventana ---
 window = Tk()
+window.title("Book Manager")  # Nombre de la ventana
+window.geometry("390x210")    # Tamaño de la ventana
 
 # --- Etiquetas de la parte superior ---
 l1 = Label(window, text="Title")
@@ -90,6 +101,10 @@ list1.configure(yscrollcommand=sb1.set)
 sb1.configure(command=list1.yview)
 
 
+# --- Vincula selección del Listbox ---
+list1.bind('<<ListboxSelect>>', get_selected_row)
+
+
 # --- Botones ---
 b1=Button(window, text="View all", width=12, command=view_command)
 b1.grid(row=2, column=3)
@@ -109,8 +124,4 @@ b5.grid(row=6, column=3)
 b6=Button(window, text="Close", width=12, command=window.destroy)
 b6.grid(row=7, column=3)
 
-# --- Vincula selección del Listbox ---
-list1.bind('<<ListboxSelect>>', get_selected_row)
-
 window.mainloop()
-
